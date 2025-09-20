@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/yggauth
+    username: ygg
+    password: ygg
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+auth:
+  access-token-ttl: 24h
+  join-ttl: 60s
+  pepper: "CHANGE_ME_RANDOM_LONG_STRING"
+  bcrypt-strength: 12
+
+ygg:
+  meta:
+    implementation-name: "Yggdrasil API written in Kotlin"
+    implementation-version: "3.1.1"
+    server-name: "YggKt"
+    links:
+      homepage: "https://ygg-kt.stormov.my"
+      register: "https://ygg-kt.stormov.my/register"
+  skin-domains:
+    - "textures.minecraft.net"
+  signature-public-key: |-
+    -----BEGIN PUBLIC KEY-----
+    MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApUzQ9U5NCmJxfPED3tCe
+    8180RwwDYCMEaVUk/x8IQZ1FcFFOhqhT7z6ZBhsqTphQJWr+6vX9PMGqFgO+K5qm
+    HpPQhx6biUn+l1fs9h1x3IWtvgrlsva1yEayVwPiUH1sHSz5mWAi/swDR1bRjdky
+    UNVQtuQ3kqb5683tXORLMNuifpQoxma+LBfTcGg3v0JpYdIQ4RdF9LOUzu6XcC6N
+    XdHVbugptjdqfu5sF5DXK1sxk27hWuB/1RiK5iEKEQxOZ9n/d4K+FOmkancq92JM
+    VeKzJ5vyqVleK7ZUXTbmkgZLyUovqzEFFHcVEA2t3yZSYXRTgsdyjkJeGkNi/auG
+    867dulBHOPWJ9VI15IvQ6Lf61F3IcJo1Ur8vYxUwim8/jNr9yCCUVXMTiwGdLFNV
+    3rjehtmE35rilOPErlVccUcS8twuJkGB3weBPTT2jEY1oHWpKzWkTNXoOHOVFmtJ
+    epKggxH/R+raxbAP8tkO3boPySTttj86Gk9zpNr+yIterBcn9f1K7S5MpH6URi43
+    WbEjQZVH5zE30rX1haG8MciBDdqYCfIwj0SjIygKOfwgPwofzS4S8L0UQBk/c+ZW
+    D5w5hOPeInnp/xBA0NOM5n94p3qyA49ezEFl04cC13gGY3mr9/4/ER+zyYuKzAYi
+    OaKJT2vUWT+1Ix69ptDugk8CAwEAAQ==
+    -----END PUBLIC KEY-----
+  yggdrasil:
+    api: "http://localhost:8080/authserver"
+  base-url: "https://ygg-kt.stormov.my"
