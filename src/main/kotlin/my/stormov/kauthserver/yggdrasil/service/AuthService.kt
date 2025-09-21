@@ -5,6 +5,7 @@ import my.stormov.kauthserver.yggdrasil.api.dto.response.*
 import my.stormov.kauthserver.yggdrasil.api.dto.*
 import my.stormov.kauthserver.yggdrasil.config.*
 import my.stormov.kauthserver.yggdrasil.domain.*
+import my.stormov.kauthserver.yggdrasil.extensions.noDash
 import my.stormov.kauthserver.yggdrasil.repository.*
 import org.springframework.cache.annotation.*
 import org.springframework.http.HttpStatus
@@ -25,8 +26,6 @@ class AuthService(
     private val hasher: TokenHasher,
     private val props: AuthProperties
 ) {
-
-    private fun uuidNoDash(u: UUID) = u.toString().replace("-", "")
 
     @Transactional
     fun authenticate(req: AuthenticateRequest): AuthenticateResponse {
@@ -54,15 +53,15 @@ class AuthService(
             )
         )
 
-        val gp = userProfiles.map { GameProfile(id = uuidNoDash(it.id!!), name = it.name) }
-        val selectedGp = selected?.let { GameProfile(id = uuidNoDash(it.id!!), name = it.name) }
+        val gp = userProfiles.map { GameProfile(id = it.id!!.noDash, name = it.name) }
+        val selectedGp = selected?.let { GameProfile(id = it.id!!.noDash, name = it.name) }
 
         return AuthenticateResponse(
             accessToken = accessToken,
             clientToken = clientToken,
             availableProfiles = gp,
             selectedProfile = selectedGp,
-            user = if (req.requestUser == true) UserInfo(id = uuidNoDash(user.id!!)) else null
+            user = if (req.requestUser == true) UserInfo(id = user.id!!.noDash) else null
         )
     }
 
@@ -83,7 +82,7 @@ class AuthService(
         sessions.save(session)
         evictTokenCache(accessHash)
 
-        val selectedGp = session.profile?.let { GameProfile(id = uuidNoDash(it.id!!), name = it.name) }
+        val selectedGp = session.profile?.let { GameProfile(id = it.id!!.noDash, name = it.name) }
 
         if (req.selectedProfile != null) {
             val profUuid = UUID.fromString(req.selectedProfile.id.chunked(8).joinToString("-") { it })
@@ -99,7 +98,7 @@ class AuthService(
             accessToken = newToken,
             clientToken = session.clientToken,
             selectedProfile = selectedGp,
-            user = if (req.requestUser == true) UserInfo(id = uuidNoDash(session.user.id!!)) else null
+            user = if (req.requestUser == true) UserInfo(id = session.user.id!!.noDash) else null
         )
     }
 

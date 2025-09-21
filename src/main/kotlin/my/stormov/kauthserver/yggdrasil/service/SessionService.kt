@@ -3,6 +3,7 @@ package my.stormov.kauthserver.yggdrasil.service
 import my.stormov.kauthserver.yggdrasil.api.dto.response.*
 import my.stormov.kauthserver.yggdrasil.config.AuthProperties
 import my.stormov.kauthserver.yggdrasil.domain.ServerJoinEntity
+import my.stormov.kauthserver.yggdrasil.extensions.noDash
 import my.stormov.kauthserver.yggdrasil.repository.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,8 +20,6 @@ class SessionService(
     private val textures: TextureService,
     private val props: AuthProperties
 ) {
-
-    private fun uuidNoDash(u: UUID) = u.toString().replace("-", "")
 
     private fun parseUuidFlexible(s: String): UUID {
         return if (s.contains("-")) UUID.fromString(s)
@@ -73,7 +72,7 @@ class SessionService(
         val profile = profiles.findById(uuid).orElse(null) ?: return null
         val props = textures.propertiesFor(profile, unsigned = unsigned)
         return ProfileResponse(
-            id = uuidNoDash(profile.id!!),
+            id = profile.id!!.noDash,
             name = profile.name,
             properties = props
         )

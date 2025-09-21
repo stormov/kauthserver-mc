@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.filter.CommonsRequestLoggingFilter
 import java.security.MessageDigest
 import java.security.SecureRandom
 import java.time.Duration
-import java.util.Base64
-import java.util.UUID
+import java.util.*
 
 @Configuration
 class Beans(private val props: AuthProperties) {
